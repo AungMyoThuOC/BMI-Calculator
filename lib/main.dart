@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 // import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
@@ -33,6 +34,7 @@ class BMICalculator extends StatefulWidget {
 class _BMICalculatorState extends State<BMICalculator> {
   int currentindex = 0;
   String result = "";
+  String SelectedValue = 'Male';
 
   // double _bmi = 0;
   // String _textResult = "";
@@ -44,7 +46,7 @@ class _BMICalculatorState extends State<BMICalculator> {
   TextEditingController weightController = TextEditingController();
   TextEditingController ageController = TextEditingController();
 
-  // var item = ['Male', 'Female'];
+  final List gender = ['Male', 'Female'];
   // var dropdownValue = 1;
 
   // String getInterpretation(BuildContext context) {
@@ -164,33 +166,47 @@ class _BMICalculatorState extends State<BMICalculator> {
                 const SizedBox(
                   height: 50,
                 ),
-                Row(
+                Column(
                   children: [
-                    IconButton(
-                        onPressed: () {},
-                        icon: const FaIcon(FontAwesomeIcons.venusMars)),
-                    // DropdownButton(
-                    //   value: dropdownValue,
-                    //   items: const [
-                    //     DropdownMenuItem(
-                    //       value: 1,
-                    //       child: Text("Male"),
-                    //     ),
-                    //     DropdownMenuItem(
-                    //       value: 2,
-                    //       child: Text("Female"),
-                    //     )
-                    //   ],
-                    //   onChanged: (newValue) {
-                    //     setState(() {
-                    //       dropdownValue = int.parse(newValue.toString());
-                    //     });
-                    //   },
-                    // ),
-                    radioButton("Male", Colors.blue, 0),
-                    radioButton("Female", Colors.pink, 1),
+                    Row(
+                      children: [
+                        IconButton(
+                            onPressed: () {},
+                            icon: const FaIcon(
+                              FontAwesomeIcons.venusMars,
+                              size: 40,
+                            )),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        const Text(
+                          "      Gender : ",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    DropdownButton2(
+                  // hint: const Text(
+                  //   'Select Your Gender',
+                  //   style: TextStyle(fontSize: 14),
+                  // ),
+                  value: SelectedValue,
+                  items: gender
+                      .map((items) =>
+                          DropdownMenuItem(value: items, child: Text(items)))
+                      .toList(),
+                  onChanged: (newval) {
+                    setState(() {
+                      SelectedValue = newval as String;
+                    });
+                  },
+                  buttonWidth: 1000,
+                  buttonHeight: 60,
+                  itemHeight: 40,
+                ),
                   ],
                 ),
+                
                 const SizedBox(
                   height: 20,
                 ),
@@ -207,7 +223,7 @@ class _BMICalculatorState extends State<BMICalculator> {
                     },
                     color: Colors.blue,
                     child: const Text(
-                      "Calculator",
+                      "Calculate",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
